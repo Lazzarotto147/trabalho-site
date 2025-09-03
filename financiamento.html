@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financiamento - AutoPrime</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #fff;
+    }
+
+    header {
+      background-color: #000;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #f5c518;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f5c518;
+    }
+
+    .container {
+      padding: 60px 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .container h2 {
+      text-align: center;
+      font-size: 36px;
+      color: #f5c518;
+      margin-bottom: 20px;
+    }
+
+    .container p {
+      text-align: center;
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 40px;
+    }
+
+    form {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #f5c518;
+    }
+
+    input, select {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #000;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #f5c518;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #2a2a2a;
+      border-radius: 5px;
+      color: #fff;
+      text-align: center;
+      font-size: 18px;
+      display: none;
+    }
+
+    footer {
+      background-color: #000;
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>AutoPrime</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="financiamento.html">Financiamento</a>
+      <a href="site pagina de cadastrar conta.html">Cadastrar</a>
+      <a href="contato.html">Contato</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Simule seu Financiamento</h2>
+    <p>Faça uma simulação rápida para descobrir o valor das parcelas do seu novo carro.</p>
+
+    <form onsubmit="simularFinanciamento(event)">
+      <div>
+        <label for="valor">Valor do carro (R$)</label>
+        <input type="number" id="valor" required placeholder="Ex: 100000">
+      </div>
+
+      <div>
+        <label for="entrada">Entrada (R$)</label>
+        <input type="number" id="entrada" required placeholder="Ex: 30000">
+      </div>
+
+      <div>
+        <label for="parcelas">Número de parcelas</label>
+        <select id="parcelas" required>
+          <option value="12">12x</option>
+          <option value="24">24x</option>
+          <option value="36">36x</option>
+          <option value="48">48x</option>
+          <option value="60">60x</option>
+        </select>
+      </div>
+
+      <button type="submit">Simular</button>
+    </form>
+
+    <div class="resultado" id="resultado">
+      <!-- Resultado da simulação aparece aqui -->
+    </div>
+  </div>
+
+  <footer>
+    © 2025 AutoPrime - Todos os direitos reservados.
+  </footer>
+
+  <script>
+    function simularFinanciamento(event) {
+      event.preventDefault();
+
+      const valor = parseFloat(document.getElementById('valor').value);
+      const entrada = parseFloat(document.getElementById('entrada').value);
+      const parcelas = parseInt(document.getElementById('parcelas').value);
+      const resultado = document.getElementById('resultado');
+
+      if (entrada >= valor) {
+        resultado.innerText = 'A entrada não pode ser maior ou igual ao valor do carro.';
+        resultado.style.display = 'block';
+        return;
+      }
+
+      const valorFinanciado = valor - entrada;
+      const jurosMensal = 0.015; // 1.5% ao mês
+      const parcela =
+        (valorFinanciado * jurosMensal) /
+        (1 - Math.pow(1 + jurosMensal, -parcelas));
+
+      resultado.innerText = `Valor aproximado da parcela: R$ ${parcela.toFixed(2)} em ${parcelas}x`;
+      resultado.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
